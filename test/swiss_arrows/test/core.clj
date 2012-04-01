@@ -2,7 +2,7 @@
   (:use [swiss-arrows.core]
         [midje.sweet]))
 
-(facts
+(facts "the diamond wand"
 
  (-<> (first [1])) => 1
  
@@ -18,8 +18,12 @@
                    (cons 6 <>))))
  => (range -1 12)
  
- (-<> (next [1 2 3]) (first)) => (throws AssertionError)
-
- (-<> (next [1 2 3]) first) => (throws AssertionError)
-
  (-<> 'foo {:a <> :b 'bar}) => {:a 'foo :b 'bar})
+ 
+#_(facts "the double-back-arrow"
+   
+   (<<-
+    (let [x nonsense])
+    (if early-term thing)
+    (let [more blah])
+    '[more inner forms…]))
