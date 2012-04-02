@@ -14,6 +14,14 @@ A collection of arrow macros.
 (use '[swiss-arrows.core])
 ```
 
+###Overview
+
+**-<>** The Diamond Wand
+**<<-** The Back Arrow
+**-<** , **-<:p** The Furcula, Parallel Furcula
+**-<<** , **-<<:p** The Trystero Furcula, Parallel Trystero Furcula
+**-<><** , **-<><:p** The Diamond Fishing Rod, Parallel Diamond Fishing Rod
+
 ###A Generalization of the Arrow
 
 *The Diamond Wand* - similar to -> or ->> except that the flow of execution is passed through specified <> positions in each of the forms.
