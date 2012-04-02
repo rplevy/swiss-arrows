@@ -43,7 +43,7 @@ The diamond wand supports literals and quoted forms:
            (let [x 'nonsense] x))))
 ```
 
-*The Divining rod*
+*The Divining Rod*
 
 ```
 (-< (+ 1 2) (list 2) (list 3) (list 4)) => '[(3 2) (3 3) (3 4)]
