@@ -149,7 +149,7 @@
    (with-out-str
      (time (doall
             (-<<
-             "<3 Eris"
+             "<5 Eris"
              (do (Thread/sleep 1000))
              (do (Thread/sleep 1000))
              (do (Thread/sleep 1000))))))
