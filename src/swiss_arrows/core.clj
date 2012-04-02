@@ -56,12 +56,12 @@
   `(furcula* -> :parallel ~form ~branches))
 
 (defmacro -<<
-  "'the double furcula': analog of ->> for furcula"
+  "'the trystero furcula': analog of ->> for furcula"
   [form & branches]
   `(furcula* ->> nil ~form ~branches))
 
 (defmacro -<<:p
-  "parallel furcula, double style"
+  "parallel trystero furcula"
   [form & branches]
   `(furcula* ->> :parallel ~form ~branches))
 
