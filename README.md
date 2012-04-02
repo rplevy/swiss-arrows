@@ -14,7 +14,9 @@ A collection of arrow macros.
 (use '[swiss-arrows.core])
 ```
 
-*The Diamond Wand* - generalized arrow.  Similar to -> or ->> except that the flow of execution is passed through specified <> positions in each of the forms.
+###A Generalization of the Arrow
+
+*The Diamond Wand* - similar to -> or ->> except that the flow of execution is passed through specified <> positions in each of the forms.
 
 ```
 (-<> 0
