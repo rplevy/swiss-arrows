@@ -50,5 +50,3 @@
 #_(defmacro -<><:p
     "parallel diamond fishing rod"
     [])
-
-
