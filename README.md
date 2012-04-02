@@ -17,9 +17,13 @@ A collection of arrow macros.
 ###Overview
 
 **-<>** The Diamond Wand
+
 **<<-** The Back Arrow
+
 **-<** , **-<:p** The Furcula, Parallel Furcula
+
 **-<<** , **-<<:p** The Trystero Furcula, Parallel Trystero Furcula
+
 **-<><** , **-<><:p** The Diamond Fishing Rod, Parallel Diamond Fishing Rod
 
 ###A Generalization of the Arrow
