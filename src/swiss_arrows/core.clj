@@ -28,9 +28,15 @@
   [& forms]
   `(->> ~@(reverse forms)))
 
-#_(defmacro -<
-    "'the furcula': branch one result into multiple flows" \
-    [])
+(defmacro -<
+  "'the furcula': branch one result into multiple flows"
+  [form & branches]
+  (let [base-form-result (gensym)]
+    `(let [~base-form-result ~form]
+       ~(cons
+         'vector
+         (for [branch branches]
+           `(-> ~base-form-result ~branch))))))
 
 #_(defmacro -<<
     "'the double furcula': analog of ->> for furcula"
