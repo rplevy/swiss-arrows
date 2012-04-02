@@ -74,7 +74,7 @@
 
 
 #_(facts
- "divining rods"
+ "furculi"
 
  (-< (+ 1 2)
      (list 2)

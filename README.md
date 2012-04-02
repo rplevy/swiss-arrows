@@ -35,22 +35,22 @@ The diamond wand supports literals and quoted forms:
   (let [more 'blah] more)) => 'blah
 ```
 
-*The Divining Rod*
+*The Furcula*
 
 ```
 (-< (+ 1 2) (list 2) (list 3) (list 4)) => '[(3 2) (3 3) (3 4)]
 
-;; The Parallel Divining Rod
+;; The Parallel Furcula
 
 (-<:p (+ 1 2) (list 2) (list 3) (list 4)) => '[(3 2) (3 3) (3 4)]
 ```
 
-*The Double Divining Rod*
+*The Double Furcula*
 
 ```
 (-<< (+ 1 2) (list 2 1) (list 5 7) (list 9 4)) => '[(2 1 3) (5 7 3) (9 4 3)]
 
-;; Parallel Divining Rod, Double-style
+;; Parallel Furcula, Double-style
 
 (-<<:p (+ 1 2) (list 2 1) (list 5 7) (list 9 4)) => '[(2 1 3) (5 7 3) (9 4 3)]
 ```

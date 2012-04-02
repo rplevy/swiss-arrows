@@ -29,23 +29,23 @@
   `(->> ~@(reverse forms)))
 
 #_(defmacro -<
-    "'the divining rod': branch one result into multiple flows" \
+    "'the furcula': branch one result into multiple flows" \
     [])
 
 #_(defmacro -<<
-    "'the double divining rod': analog of ->> for divining rod"
+    "'the double furcula': analog of ->> for furcula"
     [])
 
 #_(defmacro -<><
-    "'the diamond fishing rod': analog of -<> for divining rod"
+    "'the diamond fishing rod': analog of -<> for furcula"
     [])
 
 #_(defmacro -<:p
-    "parallel divining rod"
+    "parallel furcula"
     [])
 
 #_(defmacro -<<:p
-    "parallel divining rod, double style"
+    "parallel furcula, double style"
     [])
 
 #_(defmacro -<><:p
