@@ -43,7 +43,7 @@ The diamond wand supports literals and quoted forms:
            (let [x 'nonsense] x))))
 ```
 
-*divining rod* / *parallel divining rod*
+*The Divining rod* / *The Parallel Divining Rod*
 
 ```
 (-< (+ 1 2) (list 2) (list 3) (list 4)) => '[(3 2) (3 3) (3 4)]
@@ -53,7 +53,7 @@ The diamond wand supports literals and quoted forms:
 (-<:p (+ 1 2) (list 2) (list 3) (list 4)) => '[(3 2) (3 3) (3 4)]
 ```
 
-*double divining rod* / *parallel divining rod, double-style*
+*The Double Divining Rod* / *The Parallel Divining Rod, Double-style*
 
 ```
 (-<< (+ 1 2) (list 2 1) (list 5 7) (list 9 4)) => '[(2 1 3) (5 7 3) (9 4 3)]
@@ -63,7 +63,7 @@ The diamond wand supports literals and quoted forms:
 (-<<:p (+ 1 2) (list 2 1) (list 5 7) (list 9 4)) => '[(2 1 3) (5 7 3) (9 4 3)]
 ```
 
-*diamond fishing rod* / *parallel diamond fishing rod*
+*The Diamond Fishing Rod* / *Parallel Diamond Fishing Rod*
 
 ```
 (-<>< (+ 1 2) [<> 2 1] [5 <> 7] [9 4 <>]) => '[(3 2 1) (5 3 7) (9 4 3)]
