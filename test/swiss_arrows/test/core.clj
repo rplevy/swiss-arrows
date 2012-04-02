@@ -1,4 +1,5 @@
 (ns swiss-arrows.test.core
+  (:require [clojure.string :as str])
   (:use [swiss-arrows.core]
         [midje.sweet]))
 
@@ -89,12 +90,25 @@
      (list 4))
  =>
  '[([3] [3] [3]) (6) (3 4)]
- 
- (comment
+
+ (-<:p (+ 1 2)
+       (list 2)
+       (list 3)
+       (list 4))
+ =>
+ '[(3 2) (3 3) (3 4)]
+
  (-<< (+ 1 2)
       (list 2 1)
       (list 5 7)
       (list 9 4))
+ =>
+ '[(2 1 3) (5 7 3) (9 4 3)]
+
+ (-<<:p (+ 1 2)
+        (list 2 1)
+        (list 5 7)
+        (list 9 4))
  =>
  '[(2 1 3) (5 7 3) (9 4 3)]
 
@@ -105,23 +119,39 @@
  =>
  '[(3 2 1) (5 3 7) (9 4 3)]
 
- (-<:p (+ 1 2)
-       (list 2)
-       (list 3)
-       (list 4))
- =>
- '[(3 2) (3 3) (3 4)]
-
- (-<<:p (+ 1 2)
-        (list 2 1)
-        (list 5 7)
-        (list 9 4))
- =>
- '[(2 1 3) (5 7 3) (9 4 3)]
-
  (-<><:p (+ 1 2)
          (list <> 2 1)
          (list 5 <> 7)
          (list 9 4 <>))
  =>
- '[(3 2 1) (5 3 7) (9 4 3)]))
+ '[(3 2 1) (5 3 7) (9 4 3)]
+
+ ;; compare time of parallel to sequential 
+
+ ;; parallel
+   
+ (Float.
+  (str/replace
+   (with-out-str
+     (time (doall
+            (-<<:p
+             "<3 Discordia"
+             (do (Thread/sleep 1000))
+             (do (Thread/sleep 1000))
+             (do (Thread/sleep 1000))))))
+   #"[^\d\.]" ""))
+ => (roughly 1000 1005)
+
+ ;; sequential
+
+ (Float.
+  (str/replace
+   (with-out-str
+     (time (doall
+            (-<<
+             "<3 Eris"
+             (do (Thread/sleep 1000))
+             (do (Thread/sleep 1000))
+             (do (Thread/sleep 1000))))))
+   #"[^\d\.]" ""))
+ => (roughly 3000 3005))

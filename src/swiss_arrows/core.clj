@@ -28,32 +28,49 @@
   [& forms]
   `(->> ~@(reverse forms)))
 
+
+(defmacro furcula*
+  "would-be private, sugar-free basis of public API"
+  [operator parallel? form branches]
+  (let [base-form-result (gensym)
+        branches (vec branches)]
+    `(let [~base-form-result ~form]
+       (map ~(if parallel? deref identity)
+            ~(cons
+              'vector
+              (let [branch-forms (for [branch branches]
+                                   `(~operator ~base-form-result ~branch))]
+                (if parallel?
+                  (map (fn [branch-form]
+                         `(future ~branch-form)) branch-forms)
+                  branch-forms)))))))
+
 (defmacro -<
   "'the furcula': branch one result into multiple flows"
   [form & branches]
-  (let [base-form-result (gensym)]
-    `(let [~base-form-result ~form]
-       ~(cons
-         'vector
-         (for [branch branches]
-           `(-> ~base-form-result ~branch))))))
+  `(furcula* -> nil ~form ~branches))
 
-#_(defmacro -<<
-    "'the double furcula': analog of ->> for furcula"
-    [])
+(defmacro -<:p
+  "parallel furcula"
+  [form & branches]
+  `(furcula* -> :parallel ~form ~branches))
 
-#_(defmacro -<><
-    "'the diamond fishing rod': analog of -<> for furcula"
-    [])
+(defmacro -<<
+  "'the double furcula': analog of ->> for furcula"
+  [form & branches]
+  `(furcula* ->> nil ~form ~branches))
 
-#_(defmacro -<:p
-    "parallel furcula"
-    [])
+(defmacro -<<:p
+  "parallel furcula, double style"
+  [form & branches]
+  `(furcula* ->> :parallel ~form ~branches))
 
-#_(defmacro -<<:p
-    "parallel furcula, double style"
-    [])
+(defmacro -<><
+  "'the diamond fishing rod': analog of -<> for furcula"
+  [form & branches]
+  `(furcula* -<> nil ~form ~branches))
 
-#_(defmacro -<><:p
-    "parallel diamond fishing rod"
-    [])
+(defmacro -<><:p
+  "parallel diamond fishing rod"
+  [form & branches]
+  `(furcula* -<> :parallel ~form ~branches))

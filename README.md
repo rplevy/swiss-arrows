@@ -65,8 +65,6 @@ The diamond wand supports literals and quoted forms:
 (-<><:p (+ 1 2) [<> 2 1] [5 <> 7] [9 4 <>]) => '[(3 2 1) (5 3 7) (9 4 3)]
 ```
 
-
-
 See https://github.com/rplevy/swiss-arrows/blob/master/test/swiss_arrows/test/core.clj for more examples.
 
 ## License
@@ -77,6 +75,6 @@ Walter Tetzner, Stephen Compall, and I designed and implemented something simila
 
 Stephen Compall suggested the "back-arrow" in a conversation about a recently announced library, as a better solution (TODO: remember the name of that library).
 
-Copyright (C) 2012 Robert P. Levy
+Copyright (C) April 1st, 2012 Robert P. Levy
 
 Distributed under the Eclipse Public License, the same as Clojure.
