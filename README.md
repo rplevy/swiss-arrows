@@ -50,7 +50,9 @@ The diamond wand also supports literals and quoted forms:
  (-<> foo '{:a a :b <>}) => {:a 'a :b 'foo})
 ```
 
-*The Back Arrow* - this is simply ->> with its arguments reversed, convenient in some cases.
+###The Back Arrow
+
+This is simply ->> with its arguments reversed, convenient in some cases.
 
 ```
  (<<-
