@@ -4,6 +4,12 @@ A collection of arrow macros.
 
 ## Usage
 
+Add to project.clj:
+
+```
+[swiss-arrows "0.0.1"]
+```
+
 *The Diamond Wand*
 
 ```
