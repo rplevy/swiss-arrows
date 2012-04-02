@@ -22,10 +22,11 @@
   ([x form & forms]
      `(-<> (-<> ~x ~form) ~@forms)))
 
-#_(defmacro <<-
-    "the 'back-arrow': suggested by Stephen Compall in response to a certain
-     recently announced Clojure library"
-    [])
+(defmacro <<-
+  "the 'back-arrow': suggested by Stephen Compall in response to a certain
+   recently announced Clojure library"
+  [& forms]
+  `(->> ~@(reverse forms)))
 
 #_(defmacro -<
     "'the divining rod': branch one result into multiple flows" \

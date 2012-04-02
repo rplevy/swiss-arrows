@@ -30,17 +30,9 @@ The diamond wand supports literals and quoted forms:
 
 ```
  (<<-
-  (let [x 'nonsense] x)
+  (let [x 'nonsense])
   (if-not x 'foo)
-  (let [more 'blah]
-    more))
- 
- =>
-
- (let [more 'blah]
-   more
-   (if-not more 'foo
-           (let [x 'nonsense] x))))
+  (let [more 'blah] more)) => 'blah
 ```
 
 *The Divining Rod*

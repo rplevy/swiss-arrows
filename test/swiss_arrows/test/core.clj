@@ -42,22 +42,36 @@
  (-<> foo '{:a a :b <>})
  => {:a 'a :b 'foo})
  
-#_(fact
+(facts
  "back-arrow"
  
  (<<-
-  (let [x 'nonsense] x)
+  (let [x 'nonsense])
   (if-not x 'foo)
-  (let [more 'blah]
-    more))
- 
+  (let [more 'blah] more))
  =>
+ (->>
+  (let [more 'blah] more)
+  (if-not x 'foo)
+  (let [x 'nonsense]))
 
- (let [more 'blah]
-   more
-   (if-not more 'foo
-           (let [x 'nonsense] x))))
  
+ (<<-
+  (let [x 'nonsense])
+  (if-not x 'foo)
+  (let [more 'blah] more))
+ =>
+ (let [x 'nonsense]
+   (if-not x 'foo
+           (let [more 'blah] more)))
+
+ (<<-
+  (let [x 'nonsense])
+  (if-not x 'foo)
+  (let [more 'blah] more))
+ =>
+ 'blah)
+
 
 #_(facts
  "divining rods"
