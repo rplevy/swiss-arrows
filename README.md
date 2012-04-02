@@ -46,6 +46,14 @@ The diamond wand supports literals and quoted forms:
 ```
 (-< (+ 1 2) (list 2) (list 3) (list 4)) => '[(3 2) (3 3) (3 4)]
 
+
+;; Example using Furcula in conjunction with standard arrows:
+
+(-< (+ 1 2)
+    (->> vector (repeat 3))
+    (-> (* 2) list)
+    (list 4))                =>    '[([3] [3] [3]) (6) (3 4)]
+
 ;; The Parallel Furcula
 
 (-<:p (+ 1 2) (list 2) (list 3) (list 4)) => '[(3 2) (3 3) (3 4)]
