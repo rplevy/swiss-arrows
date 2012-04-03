@@ -43,7 +43,15 @@
  => {:a 'foo :b 'bar}
 
  (-<> :a {<> 'foo :b 'bar})
- => {:a 'foo :b 'bar})
+ => {:a 'foo :b 'bar}
+
+ (eval '(-<> 0 [1 2 3]))
+ =>
+ (throws RuntimeException #"diamond")
+ 
+ (eval '(-<> 0 [1 <> <>]))
+ =>
+ (throws RuntimeException #"diamond"))
 
 (facts
  "back-arrow"

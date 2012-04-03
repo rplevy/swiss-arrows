@@ -10,6 +10,8 @@
            (cond (map? form)    [(partial apply hash-map)  (apply concat form)]
                  (vector? form) [vec                       form]
                  :otherwise     [identity                  form])]
+       (when (not= 1 (count (filter (partial = '<>) form)))
+         (throw (Exception. "One diamond per form is required.")))
        (process-result (replace {'<> x} form))))
   ([x form & forms]
      `(-<> (-<> ~x ~form) ~@forms)))
