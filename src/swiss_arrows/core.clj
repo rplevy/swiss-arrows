@@ -6,12 +6,10 @@
    also, it works with hash literals, vectors"
   ([x] x)
   ([x form]
-     (let [[process-result form] (if (map? form)
-                                   [(partial apply hash-map) (apply concat form)]
-                                   [identity                 form])
-           process-result (if (vector? form)
-                            (comp process-result vec)
-                            process-result)
+     (let [[process-result form]
+           (cond (map? form)    [(partial apply hash-map)  (apply concat form)]
+                 (vector? form) [(comp process-result vec)  form]
+                 :otherwise     [identity                   form])
            [pre _ post] (partition-by (partial = '<>) form)]
        (process-result (concat pre [x] post))))
   ([x form & forms]
