@@ -37,17 +37,14 @@ A collection of arrow macros.
  => [1 2 0 3 4]
 ```
 
-The diamond wand also supports literals and quoted forms:
+The diamond wand also supports literals:
 
 ```
- ;; quoted list
- (-<> 10 '(1 2 a <> 4 5)) => '(1 2 a 10 4 5)
- 
  ;; map
  (-<> 'foo {:a <> :b 'bar}) => {:a 'foo :b 'bar}
 
- ;; quoted map
- (-<> foo '{:a a :b <>}) => {:a 'a :b 'foo})
+ ;; vector
+ (-<> 10 [1 2 3 <> 4 5])    => [1 2 3 10 4 5]
 ```
 
 ###The Back Arrow

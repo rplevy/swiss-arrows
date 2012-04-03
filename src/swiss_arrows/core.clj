@@ -3,17 +3,12 @@
 (defmacro -<>
   "the 'diamond wand': pass a needle through variably positioned holes
    the <> hole form is not recursive, it only works at the top level.
-   also, it works with hash literals, vectors, and quoted forms"
+   also, it works with hash literals, vectors"
   ([x] x)
   ([x form]
-     (let [[process-result form] (if (= 'quote (first form))
-                                   [(fn [r] `(quote ~r)) (first (next form))]
-                                   [identity             form])
-           [process-result form] (if (map? form)
-                                   [(comp process-result
-                                          (partial apply hash-map))
-                                    (apply concat form)]
-                                   [process-result       form])
+     (let [[process-result form] (if (map? form)
+                                   [(partial apply hash-map) (apply concat form)]
+                                   [identity                 form])
            process-result (if (vector? form)
                             (comp process-result vec)
                             process-result)

@@ -27,22 +27,13 @@
  (-<> 10 [1 2 3 <> 4 5])
  => vector?
 
- ;; quoted vector
- (-<> 10 '[1 2 a <> 4 5])
+ (-<> 10 [1 2 'a <> 4 5])
  => [1 2 'a 10 4 5]
 
- ;; quoted list
- (-<> 10 '(1 2 a <> 4 5))
- => '(1 2 a 10 4 5)
- 
  ;; map
  (-<> 'foo {:a <> :b 'bar})
- => {:a 'foo :b 'bar}
+ => {:a 'foo :b 'bar})
 
- ;; quoted map
- (-<> foo '{:a a :b <>})
- => {:a 'a :b 'foo})
- 
 (facts
  "back-arrow"
  
