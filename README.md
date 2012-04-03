@@ -110,6 +110,8 @@ Walter Tetzner, Stephen Compall, and I designed and implemented something simila
 
 Stephen Compall suggested the "back-arrow" in a conversation about a recently announced library, as a better solution (TODO: remember the name of that library).
 
+Thanks to Roman Perepelitsa and Stephen Compall for constructive feedback and ideas.
+
 Copyright (C) 2012 Robert P. Levy
 
 Distributed under the Eclipse Public License, the same as Clojure.
