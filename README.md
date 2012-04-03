@@ -7,7 +7,7 @@ A collection of arrow macros.
 ## Usage
 
 ```
-[swiss-arrows "0.0.1"]
+[swiss-arrows "0.0.4"]
 ```
 
 ```
