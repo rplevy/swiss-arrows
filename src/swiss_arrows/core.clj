@@ -8,8 +8,8 @@
   ([x form]
      (let [[process-result form]
            (cond (map? form)    [(partial apply hash-map)  (apply concat form)]
-                 (vector? form) [(comp process-result vec)  form]
-                 :otherwise     [identity                   form])
+                 (vector? form) [vec                       form]
+                 :otherwise     [identity                  form])
            [pre _ post] (partition-by (partial = '<>) form)]
        (process-result (concat pre [x] post))))
   ([x form & forms]
