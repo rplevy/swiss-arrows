@@ -45,6 +45,17 @@
  (-<> :a {<> 'foo :b 'bar})
  => {:a 'foo :b 'bar}
 
+ ;; symbol = (symbol <>)
+
+ (-<> :a (map <> [{:a 1} {:a 2}]) vector)
+ => (-<> :a (map <> [{:a 1} {:a 2}]) (vector <>))
+
+ (-<> :a
+      (map <> [{:a 1} {:a 2}])
+      (map (partial + 2) <>)
+      reverse)
+ => [4 3]
+ 
  (eval '(-<> 0 [1 2 3]))
  =>
  (throws RuntimeException #"diamond")

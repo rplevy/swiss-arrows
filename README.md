@@ -6,15 +6,17 @@ A collection of arrow macros.
 
 ## Usage
 
-```
-[swiss-arrows "0.0.4"]
-```
+### Installation
+
+http://clojars.org/swiss-arrows
+
+### Getting Started
 
 ```
 (use '[swiss-arrows.core])
 ```
-
-###Overview
+ 
+### Overview
 
 **-<>** The Diamond Wand
 
@@ -26,7 +28,7 @@ A collection of arrow macros.
 
 **-<><** , **-<><:p** The Diamond Fishing Rod, Parallel Diamond Fishing Rod
 
-###A Generalization of the Arrow
+### A Generalization of the Arrow
 
 *The Diamond Wand* - similar to -> or ->> except that the flow of execution is passed through specified <> positions in each of the forms.
 
@@ -47,7 +49,17 @@ The diamond wand also supports literals:
  (-<> 10 [1 2 3 <> 4 5])    => [1 2 3 10 4 5]
 ```
 
-###The Back Arrow
+Like -> & ->> interpret a symbol x as (x), -<> interprets x as (x <>)
+
+```
+ (-<> :a
+      (map <> [{:a 1} {:a 2}])
+      (map (partial + 2) <>)
+      reverse)
+ => [4 3]
+```
+
+### The Back Arrow
 
 This is simply ->> with its arguments reversed, convenient in some cases.
 
@@ -58,7 +70,7 @@ This is simply ->> with its arguments reversed, convenient in some cases.
   (let [more 'blah] more)) => 'blah
 ```
 
-###Branching Arrows
+### Branching Arrows
 
 The following six arrows (three, and their parallel counterparts) are *branching* arrows, in contrast with the "threading" or "nesting" arrows we have seen thus far.  The following example demonstrates how branching and nesting arrows can work together to cleanly express a flow of control. Here our first branching arrow, The Furcula, passes the result of (+ 1 2) to each of the successive forms, which is then nested out horizontally into further expressions using traditional arrows.
 
@@ -110,7 +122,7 @@ Walter Tetzner, Stephen Compall, and I designed and implemented something simila
 
 Stephen Compall suggested the "back-arrow" in a conversation about a recently announced library, as a better solution (TODO: remember the name of that library).
 
-Thanks to Roman Perepelitsa and Stephen Compall for constructive feedback and ideas.
+Thanks to Alex Baranosky, Roman Perepelitsa and Stephen Compall for constructive feedback and ideas.
 
 Copyright (C) 2012 Robert P. Levy
 
