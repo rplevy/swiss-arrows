@@ -1,4 +1,4 @@
-(defproject swiss-arrows "0.2.0"
+(defproject swiss-arrows "0.2.1"
   :description "more arrow macros"
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [org.clojure/core.incubator "0.1.0"]]
