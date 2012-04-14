@@ -182,5 +182,4 @@
   (-?<> "abc"
         (if (string? "adf") nil <>)
         (str <> " + more"))
-  => nil 
-  )
+  => nil)
