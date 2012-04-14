@@ -71,8 +71,13 @@
   [form & branches]
   `(furcula* -<> :parallel ~form ~branches))
 
-(defmacro nilsafe-arrow [docstring non-nilsafe nilsafe]
-  (#'incubator/defnilsafe &form &env docstring non-nilsafe nilsafe))
+(defmacro ^:private defnilsafe [docstring non-safe-name nil-safe-name]
+  `(defmacro ~nil-safe-name ~docstring
+     {:arglists '([~'x ~'form] [~'x ~'form ~'& ~'forms])}
+     ([x# form#]
+        `(let [~'i# ~x#] (when-not (nil? ~'i#) (~'~non-safe-name ~'i# ~form#))))
+     ([x# form# & more#]
+             `(~'~nil-safe-name (~'~nil-safe-name ~x# ~form#) ~@more#))))
 
-(nilsafe-arrow "the nullsafe version of -<>"
+(defnilsafe "the nullsafe version of -<>"
   -<> -?<>)
