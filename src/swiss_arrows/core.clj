@@ -1,4 +1,5 @@
-(ns swiss-arrows.core)
+(ns swiss-arrows.core
+  (:require [clojure.core.incubator :as incubator]))
 
 (defmacro -<>
   "the 'diamond wand': pass a needle through variably positioned holes
@@ -69,3 +70,9 @@
   "parallel diamond fishing rod"
   [form & branches]
   `(furcula* -<> :parallel ~form ~branches))
+
+(defmacro nilsafe-arrow [docstring non-nilsafe nilsafe]
+  (#'incubator/defnilsafe &form &env docstring non-nilsafe nilsafe))
+
+(nilsafe-arrow "the nullsafe version of -<>"
+  -<> -?<>)

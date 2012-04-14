@@ -176,3 +176,11 @@
              (do (Thread/sleep 1000))))))
    #"[^\d\.]" ""))
  => (roughly 3000 3005))
+
+(facts "about null-safe swiss arrows"
+  
+  (-?<> "abc"
+        (if (string? "adf") nil <>)
+        (str <> " + more"))
+  => nil 
+  )
