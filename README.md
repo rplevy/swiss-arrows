@@ -59,6 +59,15 @@ Like -> & ->> interpret a symbol x as (x), -<> interprets x as (x <>)
  => [4 3]
 ```
 
+*Nil-safe Diamond Wand*
+
+```
+ (-?<> "abc"
+       (if (string? "adf") nil <>)
+       (str <> " + more"))
+ => nil)
+```
+
 ### The Back Arrow
 
 This is simply ->> with its arguments reversed, convenient in some cases.
@@ -121,6 +130,8 @@ Credits:
 Walter Tetzner, Stephen Compall, and I designed and implemented something similar to the "diamond wand" a couple of years ago.
 
 Stephen Compall suggested the "back-arrow" in a conversation about a recently announced library, as a better solution (TODO: remember the name of that library).
+
+Alex Baronosky contributed nilsafe -<>.
 
 Thanks to Alex Baranosky, Roman Perepelitsa and Stephen Compall for constructive feedback and ideas.
 
