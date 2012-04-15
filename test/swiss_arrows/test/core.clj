@@ -1,7 +1,7 @@
 (ns swiss-arrows.test.core
-  (:require [clojure.string :as str])
-  (:use [swiss-arrows.core]
-        [midje.sweet]))
+  (:require [clojure.string :as str]
+            [swiss-arrows.core :refer :all]
+            [midje.sweet :refer :all]))
 
 (facts
  "the diamond wand"
@@ -56,13 +56,9 @@
       reverse)
  => [4 3]
  
- (eval '(-<> 0 [1 2 3]))
- =>
- (throws RuntimeException #"diamond")
+ (eval '(-<> 0 [1 2 3])) => (throws Exception #"diamond")
  
- (eval '(-<> 0 [1 <> <>]))
- =>
- (throws RuntimeException #"diamond"))
+ (eval '(-<> 0 [1 <> <>])) => (throws Exception #"diamond"))
 
 (facts
  "back-arrow"
