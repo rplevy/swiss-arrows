@@ -1,5 +1,4 @@
-(ns swiss-arrows.core
-  (:require [clojure.core.incubator :as incubator]))
+(ns swiss-arrows.core)
 
 (defmacro -<>
   "the 'diamond wand': pass a needle through variably positioned holes
