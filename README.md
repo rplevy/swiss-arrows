@@ -83,7 +83,7 @@ Contributed by Alex Baranosky.
 
 This is simply ->> with its arguments reversed, convenient in some cases.  It
 was contributed by Stephen Compall as an alternative to
-[egamble/let-else](egamble/let-else).
+[egamble/let-else](http://github.com/egamble/let-else).
 
 ```
  (<<-
