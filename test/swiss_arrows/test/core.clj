@@ -182,3 +182,35 @@
         (if (string? "adf") nil <>)
         (str <> " + more"))
   => nil)
+
+
+(facts
+ "about non-updating arrows"
+ (fact
+  (-!> {:foo "bar"} :foo prn)
+  => {:foo "bar"}
+  (provided (prn "bar") => anything :times 1))
+
+ (fact
+  (-!>> {:foo "bar"} :foo (prn "foo"))
+  => {:foo "bar"}
+  (provided (prn "foo" "bar") => anything :times 1))
+  
+ (fact
+  (-!<> {:foo "bar"} :foo (prn "got" <> "here"))
+  => {:foo "bar"}
+  (provided (prn "got" "bar" "here") => anything :times 1))
+ 
+ (fact
+  (-> {:foo "bar"}
+      (assoc :baz ["quux" "you"])
+      (-!> :baz second (prn "got here"))
+      (-!>> :baz second (prn "got here"))
+      (-!<> :baz second (prn "got" <> "here"))
+      (assoc :bar "foo"))
+  => {:foo "bar"
+      :baz ["quux" "you"]
+      :bar "foo"}
+  (provided (prn "you" "got here") => anything :times 1)
+  (provided (prn "got here" "you") => anything :times 1)
+  (provided (prn "got" "you" "here") => anything :times 1)))
