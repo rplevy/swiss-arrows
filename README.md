@@ -93,11 +93,10 @@ to messy code, and they don't nest (eg. #( ) reader macro), and so on.
 
 Non-updating arrows offer an adequately elegant alternative solution for
 inserting side-action in what would otherwise be a difficult situation.
-As a bonus, the arrow-style macros (including the wand*) do not rely on
-symbol capture, and therefore are arbitrarily nestable.
-
-* And the <> does not refer to any sort of binding, and does not act
-recursively so it is not anaphoric in the usual sense, if at all.
+As a bonus, the arrow-style macros (including the wand-- the <> does not refer
+to any sort of binding, and does not act recursively so it is not anaphoric
+in the usual sense, if at all) do not rely on symbol capture, and therefore
+are arbitrarily nestable.
 
 
 ```clojure
