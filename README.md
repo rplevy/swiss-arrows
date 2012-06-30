@@ -28,6 +28,10 @@ Clojure 1.3
 
 **-<>** The Diamond Wand
 
+**-?<>** The Nil-shortcutting Diamond Wand
+
+**-!>** , **-!>>** , **-!<>** Non-updating Arrows
+
 **<<-** The Back Arrow
 
 **-<** , **-<:p** The Furcula, Parallel Furcula
@@ -41,7 +45,7 @@ Clojure 1.3
 *The Diamond Wand* - similar to -> or ->> except that the flow of execution
 is passed through specified <> positions in each of the forms.
 
-```
+```clojure
 (-<> 0
      (* <> 5)
      (vector 1 2 <> 3 4))
@@ -50,7 +54,7 @@ is passed through specified <> positions in each of the forms.
 
 The diamond wand also supports literals:
 
-```
+```clojure
  ;; map
  (-<> 'foo {:a <> :b 'bar}) => {:a 'foo :b 'bar}
 
@@ -60,7 +64,7 @@ The diamond wand also supports literals:
 
 Like -> & ->> interpret a symbol x as (x), -<> interprets x as (x <>)
 
-```
+```clojure
  (-<> :a
       (map <> [{:a 1} {:a 2}])
       (map (partial + 2) <>)
@@ -68,15 +72,38 @@ Like -> & ->> interpret a symbol x as (x), -<> interprets x as (x <>)
  => [4 3]
 ```
 
-*Nil-safe Diamond Wand*
+*Nil-shortcutting Diamond Wand*
 
 Contributed by Alex Baranosky.
 
-```
+```clojure
  (-?<> "abc"
        (if (string? "adf") nil <>)
        (str <> " + more"))
  => nil)
+```
+
+### Non-updating Arrows (for unobtrusive side-effecting)
+
+It is often expedient, particular for debugging and logging, to stick a side-
+effecting form midway in the pipeline of an arrow.  One solution is to define
+utility macros such as ["with" and "within"](https://gist.github.com/3021378)
+One trade-off here is that having too many anaphoric macros can lead to messy
+code, and they don't nest (cf. #( ) reader macro), and so on.
+
+Non-updating arrows offer an adequately elegant solution for inserting action
+of this sort in what would otherwise be an inconvenient situation.
+
+```clojure
+  (-> {:foo "bar"}
+    (assoc :baz ["quux" "you"])
+    (-!> :baz second (prn "got here"))
+    (-!>> :baz first (prn "got here"))
+    (-!<> :baz second (prn "got" <> "here"))
+    (assoc :bar "foo"))
+  => {:foo "bar"
+      :baz ["quux" "you"]
+      :bar "foo"}
 ```
 
 ### The Back Arrow
@@ -85,7 +112,7 @@ This is simply ->> with its arguments reversed, convenient in some cases.  It
 was contributed by Stephen Compall as an alternative to
 [egamble/let-else](http://github.com/egamble/let-else).
 
-```
+```clojure
  (<<-
   (let [x 'nonsense])
   (if-not x 'foo)
@@ -102,7 +129,7 @@ our first branching arrow, The Furcula, passes the result of (+ 1 2) to each
 of the successive forms, which is then nested out horizontally into further 
 expressions using traditional arrows.
 
-```
+```clojure
 (-< (+ 1 2)
     (->> vector (repeat 3))
     (-> (* 2) list)
@@ -115,7 +142,7 @@ Expands to a let performing the initial operation, and then individual
 expressions using it. In the parallel version, the individual expressions are
  evaluated in futures.
 
-```
+```clojure
 (-< (+ 1 2) (list 2) (list 3) (list 4)) => '[(3 2) (3 3) (3 4)]
 
 ;; The Parallel Furcula
@@ -126,7 +153,7 @@ expressions using it. In the parallel version, the individual expressions are
 *The Trystero Furcula* - another branching arrow. Same idea as -<, except it
 uses the ->> form placement convention.
 
-```
+```clojure
 (-<< (+ 1 2) (list 2 1) (list 5 7) (list 9 4)) => '[(2 1 3) (5 7 3) (9 4 3)]
 
 ;; Parallel Trystero Furcula
@@ -137,7 +164,7 @@ uses the ->> form placement convention.
 *The Diamond Fishing Rod* - another branching arrow. Same idea as -< and -<<,
 except it uses the -<> form placement convention.
 
-```
+```clojure
 (-<>< (+ 1 2) [<> 2 1] [5 <> 7] [9 4 <>]) => '[(3 2 1) (5 3 7) (9 4 3)]
 
 ;; Parallel Diamond Fishing Rod
