@@ -85,14 +85,20 @@ Contributed by Alex Baranosky.
 
 ### Non-updating Arrows (for unobtrusive side-effecting)
 
-It is often expedient, particular for debugging and logging, to stick a side-
-effecting form midway in the pipeline of an arrow.  One solution is to define
-utility macros such as ["with" and "within"](https://gist.github.com/3021378)
-One trade-off here is that having too many anaphoric macros can lead to messy
-code, and they don't nest (cf. #( ) reader macro), and so on.
+It is often expedient, in particular for debugging and logging, to stick a
+side-effecting form midway in the pipeline of an arrow.  One solution is a
+pair of utility macros ["with" and "within"](https://gist.github.com/3021378)
+A caveat of that approach is that having too many anaphoric macros can lead
+to messy code, and they don't nest (eg. #( ) reader macro), and so on.
 
-Non-updating arrows offer an adequately elegant solution for inserting action
-of this sort in what would otherwise be an inconvenient situation.
+Non-updating arrows offer an adequately elegant alternative solution for
+inserting side-action in what would otherwise be a difficult situation.
+As a bonus, the arrow-style macros (including the wand*) do not rely on
+symbol capture, and therefore are arbitrarily nestable.
+
+* And the <> does not refer to any sort of binding, and does not act
+recursively so it is not anaphoric in the usual sense, if at all.
+
 
 ```clojure
   (-> {:foo "bar"}
