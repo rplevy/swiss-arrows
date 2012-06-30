@@ -9,7 +9,9 @@
      (let [[process-result form]
            (cond (map? form)    [(partial apply hash-map)  (apply concat form)]
                  (vector? form) [vec                       form]
-                 (symbol? form) [identity                  (list form '<>)]
+                 (or (symbol? form)
+                     (keyword? form))
+                                [identity                  (list form '<>)]
                  :otherwise     [identity                  form])]
        (when (not= 1 (count (filter (partial = '<>) form)))
          (throw (Exception. "One diamond per form is required.")))

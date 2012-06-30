@@ -50,6 +50,9 @@
  (-<> :a (map <> [{:a 1} {:a 2}]) vector)
  => (-<> :a (map <> [{:a 1} {:a 2}]) (vector <>))
 
+ (-<> {:a 1 :b 2} :a inc (vector 1 <> 3))
+ => [1 2 3]
+ 
  (-<> :a
       (map <> [{:a 1} {:a 2}])
       (map (partial + 2) <>)
