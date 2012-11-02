@@ -29,7 +29,7 @@
   ([x form & forms] `(-<> (-<> ~x ~form) ~@forms)))
 
 (defmacro -<>>
-  "the 'mostly thread-last': top-level insertion of x in place of single
+  "the 'diamond spear': top-level insertion of x in place of single
    positional '<>' symbol within the threaded form if present, otherwise
    mostly behave as the thread-last macro. Also works with hash literals
    and vectors."
