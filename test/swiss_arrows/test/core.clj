@@ -38,6 +38,13 @@
  (-<> 10 [1 2 'a <> 4 5])
  => [1 2 'a 10 4 5]
 
+ (-<> 0 [1 2 3]) => [0 1 2 3]
+ (-<>> 0 [1 2 3]) => [1 2 3 0]
+
+ ;; seqs
+ (-<> 0 '(1 2 3)) => '(0 1 2 3)
+ (-<>> 0 '(1 2 3)) => '(1 2 3 0)
+
  ;; map
  (-<> 'foo {:a <> :b 'bar})
  => {:a 'foo :b 'bar}
@@ -61,16 +68,27 @@
 
  ;; 'default position' behaviors
 
+ (-<> 0 [1 2 3]) => [0 1 2 3]
+
+ (-<>> 0 [1 2 3]) => [1 2 3 0]
+
+ (-<> 0 '(1 2 3)) => '(0 1 2 3)
+
+ (-<>> 0 '(1 2 3)) => '(1 2 3 0)
+
+ (eval '(-<> 0 [1 <> <>])) => (throws Exception #"more than one"))
+
+(future-facts
+ "about positions"
+ 
  (-<>> 4 (conj [1 2 3])) => [1 2 3 4]
 
  (-<> 4 (cons [1 2 3])) => [4 1 2 3]
 
  (-<>> 4 (conj [1 2 3]) reverse (map inc <>)) => [5 4 3 2]
 
- (-<> 4 (cons [1 2 3]) reverse (map inc <>)) => [4 3 2 5]
+ (-<> 4 (cons [1 2 3]) reverse (map inc <>)) => [4 3 2 5])
 
-
- (eval '(-<> 0 [1 <> <>])) => (throws Exception #"more than one"))
 
 (facts
  "back-arrow"

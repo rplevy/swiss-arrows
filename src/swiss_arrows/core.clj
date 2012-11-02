@@ -16,6 +16,13 @@
      (< 1 c) (throw
               (Exception. "No more than one position per form is allowed."))
      (or (symbol? form) (keyword? form)) `(~form ~x)
+     (= 0 c) (cond (vector? form) (if (= :first default-position)
+                                    `(cons ~x ~form)
+                                    `(conj ~form ~x))
+                   (seq? form) (if (= :first default-position)
+                                 `(cons ~x ~form)
+                                 `(concat ~form [~x]))
+                   :default form)
      (vector? form) (substitute-pos form)
      (map? form) (apply hash-map (mapcat substitute-pos form))
      (= 1 c) `(~(first form) ~@(substitute-pos (next form)))
