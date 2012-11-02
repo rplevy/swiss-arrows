@@ -59,9 +59,7 @@
       reverse)
  => [4 3]
  
- (eval '(-<> 0 [1 2 3])) => (throws Exception #"diamond")
- 
- (eval '(-<> 0 [1 <> <>])) => (throws Exception #"diamond"))
+ (eval '(-<> 0 [1 <> <>])) => (throws Exception #"more than one"))
 
 (facts
  "back-arrow"
