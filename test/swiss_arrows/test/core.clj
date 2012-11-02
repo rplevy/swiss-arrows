@@ -37,6 +37,13 @@
  
  (-<> 10 [1 2 'a <> 4 5])
  => [1 2 'a 10 4 5]
+   
+ (-<> 0 [1 2 3]) => [0 1 2 3]
+ (-<>> 0 [1 2 3]) => [1 2 3 0]
+
+ ;; seqs
+ (-<> 0 '(1 2 3)) => '(0 1 2 3)
+ (-<>> 0 '(1 2 3)) => '(1 2 3 0)
 
  ;; map
  (-<> 'foo {:a <> :b 'bar})
@@ -59,9 +66,7 @@
       reverse)
  => [4 3]
  
- (eval '(-<> 0 [1 2 3])) => (throws Exception #"diamond")
- 
- (eval '(-<> 0 [1 <> <>])) => (throws Exception #"diamond"))
+ (eval '(-<> 0 [1 <> <>])) => (throws Exception #"more than one"))
 
 (facts
  "back-arrow"
