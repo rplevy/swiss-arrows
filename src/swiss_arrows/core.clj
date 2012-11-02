@@ -11,27 +11,25 @@
         c (cond
            (or (seq? form) (vector? form)) (count-pos form)
            (map? form) (count-pos (mapcat concat form))
-           :default 0)]
+           :otherwise 0)]
     (cond
-     (< 1 c)              (throw
-                            (Exception.
-                             "No more than one position per form is allowed."))
+     (> c 1)              (throw
+                           (Exception.
+                            "No more than one position per form is allowed."))
      (or (symbol? form)
          (keyword? form)) `(~form ~x)
-         (= 0 c)          (cond (vector? form) (if (= :first default-position)
-                                                 `(cons ~x ~form)
-                                                 `(conj ~form ~x))
-                                (seq? form)    (if (= :first default-position)
-                                                 `(cons ~x ~form)
-                                                 `(concat ~form [~x]))
-                                :default       form)
+     (= 0 c)              (cond (vector? form)
+                                (if (= :first default-position)
+                                  `(cons ~x ~form)
+                                  `(conj ~form ~x)) ,
+                                (coll? form)
+                                (if (= :first default-position)
+                                  `(~(first form) ~x ~@(next form))
+                                  `(~(first form) ~@(next form) ~x)) ,
+                                :otherwise form)
      (vector? form)       (substitute-pos form)
      (map? form)          (apply hash-map (mapcat substitute-pos form))
-     (= 1 c) `            (~(first form) ~@(substitute-pos (next form)))
-     :default             (cond (= :first default-position)
-                                `(~(first form) ~x ~@(next form))
-                                (= :last default-position)
-                                `(~(first form) ~@(next form) ~x)))))
+     (= 1 c)              `(~(first form) ~@(substitute-pos (next form))))))
 
 (defmacro -<>
   "the 'diamond wand': top-level insertion of x in place of single
