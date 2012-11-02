@@ -1,33 +1,62 @@
 (ns swiss-arrows.core)
 
+(defmacro ^:internal -<>*
+  "helper macro used by public API macros -<> and -<>>.
+   Inserts x in place of '<>' in form, or in first or last position as indicated
+   by default-position (which 'traditional arrow' semantics to fall back on when
+   no position is explicitly specified by a diamond)"
+  [form x default-position]
+  (let [substitute-pos (fn [form'] (replace {'<> x} form'))
+        count-pos (fn [form'] (count (filter (partial = '<>) form')))
+        c (cond
+           (or (seq? form) (vector? form)) (count-pos form)
+           (map? form) (count-pos (mapcat concat form))
+           :otherwise 0)]
+    (cond
+     (> c 1)              (throw
+                           (Exception.
+                            "No more than one position per form is allowed."))
+     (or (symbol? form)
+         (keyword? form)) `(~form ~x)
+     (= 0 c)              (cond (vector? form)
+                                (if (= :first default-position)
+                                  `(cons ~x ~form)
+                                  `(conj ~form ~x)) ,
+                                (coll? form)
+                                (if (= :first default-position)
+                                  `(~(first form) ~x ~@(next form))
+                                  `(~(first form) ~@(next form) ~x)) ,
+                                :otherwise form)
+     (vector? form)       (substitute-pos form)
+     (map? form)          (apply hash-map (mapcat substitute-pos form))
+     (= 1 c)              `(~(first form) ~@(substitute-pos (next form))))))
+
 (defmacro -<>
-  "the 'diamond wand': pass a needle through variably positioned holes
-   the <> hole form is not recursive, it only works at the top level.
-   also, it works with hash literals, vectors"
+  "the 'diamond wand': top-level insertion of x in place of single
+   positional '<>' symbol within the threaded form if present, otherwise
+   mostly behave as the thread-first macro. Also works with hash literals
+   and vectors."
   ([x] x)
-  ([x form]
-     (let [[process-result form]
-           (cond (map? form)    [(partial apply hash-map)  (apply concat form)]
-                 (vector? form) [vec                       form]
-                 (or (symbol? form)
-                     (keyword? form))
-                                [identity                  (list form '<>)]
-                 :otherwise     [identity                  form])]
-       (when (not= 1 (count (filter (partial = '<>) form)))
-         (throw (Exception. "One diamond per form is required.")))
-       (process-result (replace {'<> x} form))))
-  ([x form & forms]
-     `(-<> (-<> ~x ~form) ~@forms)))
+  ([x form] `(-<>* ~form ~x :first))
+  ([x form & forms] `(-<> (-<> ~x ~form) ~@forms)))
+
+(defmacro -<>>
+  "the 'diamond spear': top-level insertion of x in place of single
+   positional '<>' symbol within the threaded form if present, otherwise
+   mostly behave as the thread-last macro. Also works with hash literals
+   and vectors."
+  ([x] x)
+  ([x form] `(-<>* ~form ~x :last))
+  ([x form & forms] `(-<>> (-<>> ~x ~form) ~@forms)))
 
 (defmacro <<-
-  "the 'back-arrow': suggested by Stephen Compall in response to a certain
-   recently announced Clojure library"
+  "the 'back-arrow'"
   [& forms]
   `(->> ~@(reverse forms)))
 
 
-(defmacro furcula*
-  "would-be private, sugar-free basis of public API"
+(defmacro ^:internal furcula*
+  "sugar-free basis of public API"
   [operator parallel? form branches]
   (let [base-form-result (gensym)
         branches (vec branches)]
@@ -72,7 +101,7 @@
   [form & branches]
   `(furcula* -<> :parallel ~form ~branches))
 
-(defmacro ^:private defnilsafe [docstring non-safe-name nil-safe-name]
+(defmacro ^:internal defnilsafe [docstring non-safe-name nil-safe-name]
   `(defmacro ~nil-safe-name ~docstring
      {:arglists '([~'x ~'form] [~'x ~'form ~'& ~'forms])}
      ([x# form#]
