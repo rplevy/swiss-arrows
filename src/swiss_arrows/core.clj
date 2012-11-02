@@ -1,44 +1,40 @@
 (ns swiss-arrows.core)
 
-(defmacro =>
-  "the 'mostly thread-first': top-level insertion of x in place of single
-   positional '_' character within the threaded form if present, otherwise
+(defmacro thread-into
+  "Inserts x in place of '<>' in form, or in first or last position as indicated
+  by posk"
+  [form x posk]
+  (let [rf (fn [f] (replace {'<> x} f))
+        cf (fn [f] (count (filter (partial = '<>) f)))
+        c (cond (seq? form) (cf form)
+                (map? form) (cf (mapcat concat form))
+                :default 0)]    
+    (cond
+      (< 1 c) (throw (Exception. "No more than one position per form is allowed."))
+      (or (symbol? form) (keyword? form)) `(~form ~x)
+      (vector? form) (rf form)
+      (map? form) (apply hash-map (mapcat rf form))
+      (= 1 c) `(~(first form) ~@(rf (next form)))
+      :default (cond (= :first posk) `(~(first form) ~x ~@(next form))
+                     (= :last posk) `(~(first form) ~@(next form) ~x)))))
+
+(defmacro -<>
+  "the 'diamond wand': top-level insertion of x in place of single
+   positional '<>' symbol within the threaded form if present, otherwise
    mostly behave as the thread-first macro. Also works with hash literals
    and vectors."
   ([x] x)
-  ([x form]
-     (let [rf (fn [f] (replace {'_ x} f))
-           cf (fn [f] (count (filter (partial = '_) f)))
-           c (cond (seq? form) (cf form)
-                   (map? form) (cf (mapcat concat form))
-                   :default 0)]    
-       (cond
-         (< 1 c) (throw (Exception. "No more than one position per form is allowed."))
-         (or (symbol? form) (keyword? form)) `(~form ~x)
-         (vector? form) (rf form)
-         (map? form) (apply hash-map (mapcat rf form))
-         (= 1 c) `(~(first form) ~@(rf (next form)))
-         :default `(~(first form) ~x ~@(next form)))))
-  ([x form & forms] `(=> (=> ~x ~form) ~@forms)))
+  ([x form] `(thread-into ~form ~x :first))
+  ([x form & forms] `(-<> (-<> ~x ~form) ~@forms)))
 
-(defmacro -<>
-  "the 'diamond wand': pass a needle through variably positioned holes
-   the <> hole form is not recursive, it only works at the top level.
-   also, it works with hash literals, vectors"
+(defmacro -<>>
+  "the 'mostly thread-last': top-level insertion of x in place of single
+   positional '<>' symbol within the threaded form if present, otherwise
+   mostly behave as the thread-last macro. Also works with hash literals
+   and vectors."
   ([x] x)
-  ([x form]
-     (let [[process-result form]
-           (cond (map? form)    [(partial apply hash-map)  (apply concat form)]
-                 (vector? form) [vec                       form]
-                 (or (symbol? form)
-                     (keyword? form))
-                                [identity                  (list form '<>)]
-                 :otherwise     [identity                  form])]
-       (when (not= 1 (count (filter (partial = '<>) form)))
-         (throw (Exception. "One diamond per form is required.")))
-       (process-result (replace {'<> x} form))))
-  ([x form & forms]
-     `(-<> (-<> ~x ~form) ~@forms)))
+  ([x form] `(thread-into ~form ~x :last))
+  ([x form & forms] `(-<>> (-<>> ~x ~form) ~@forms)))
 
 (defmacro <<-
   "the 'back-arrow': suggested by Stephen Compall in response to a certain
