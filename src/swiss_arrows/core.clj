@@ -13,9 +13,10 @@
     (cond
       (< 1 c) (throw (Exception. "No more than one position per form is allowed."))
       (or (symbol? form) (keyword? form)) `(~form ~x)
-      (and (= 1 c) (vector? form)) (rf form)
-      (vector? form) (if (= :first posk) `(cons ~x ~form) `(conj ~form ~x))
-      (seq? form) (if (= :first posk) `(cons ~x ~form) `(concat ~form (list ~x)))
+      (= 0 c) (cond (vector? form) (if (= :first posk) `(cons ~x ~form) `(conj ~form ~x))
+                    (seq? form) (if (= :first posk) `(cons ~x ~form) `(concat ~form (list ~x)))
+                    :default form)
+      (vector? form) (rf form)
       (map? form) (apply hash-map (mapcat rf form))
       (= 1 c) `(~(first form) ~@(rf (next form)))
       :default (cond (= :first posk) `(~(first form) ~x ~@(next form))
