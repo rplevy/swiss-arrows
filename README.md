@@ -72,7 +72,7 @@ Like -> & ->> interpret a symbol x as (x), -<> interprets x as (x <>)
  => [4 3]
 ```
 
-*Default Bositioning Behavior*
+*Default Positioning Behavior*
 
 If no <> position marker is found in a form within the Diamond Wand -<>, the
 default positioning behavior follows that of the -> macro. Likewise, if no
