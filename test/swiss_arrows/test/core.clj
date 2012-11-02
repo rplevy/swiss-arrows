@@ -7,7 +7,7 @@
  "the diamond wand"
 
  (-<> (first [1])) => 1
- 
+
  (-<> 0
       (* <> 5)
       (vector 1 2 <> 3 4))
@@ -20,7 +20,7 @@
                    (cons 6 <>))))
  => (range -1 13)
 
- ;; vector 
+ ;; vector
  (-<> 10 [1 2 3 <> 4 5])
  => [1 2 3 10 4 5]
 
@@ -34,7 +34,7 @@
       [6 7 <> 9 10]
       (vector <>))
  => [[6 7 8 9 10]]
- 
+
  (-<> 10 [1 2 'a <> 4 5])
  => [1 2 'a 10 4 5]
 
@@ -52,18 +52,18 @@
 
  (-<> {:a 1 :b 2} :a inc (vector 1 <> 3))
  => [1 2 3]
- 
+
  (-<> :a
       (map <> [{:a 1} {:a 2}])
       (map (partial + 2) <>)
       reverse)
  => [4 3]
- 
+
  (eval '(-<> 0 [1 <> <>])) => (throws Exception #"more than one"))
 
 (facts
  "back-arrow"
- 
+
  (<<-
   (let [x 'nonsense])
   (if-not x 'foo)
@@ -74,7 +74,7 @@
   (if-not x 'foo)
   (let [x 'nonsense]))
 
- 
+
  (<<-
   (let [x 'nonsense])
   (if-not x 'foo)
@@ -144,10 +144,10 @@
  =>
  '[(3 2 1) (5 3 7) (9 4 3)]
 
- ;; compare time of parallel to sequential 
+ ;; compare time of parallel to sequential
 
  ;; parallel
-   
+
  (Float.
   (str/replace
    (with-out-str
@@ -175,7 +175,7 @@
  => (roughly 3000 3005))
 
 (facts "about null-safe swiss arrows"
-  
+
   (-?<> "abc"
         (if (string? "adf") nil <>)
         (str <> " + more"))
@@ -193,12 +193,12 @@
   (-!>> {:foo "bar"} :foo (prn "foo"))
   => {:foo "bar"}
   (provided (prn "foo" "bar") => anything :times 1))
-  
+
  (fact
   (-!<> {:foo "bar"} :foo (prn "got" <> "here"))
   => {:foo "bar"}
   (provided (prn "got" "bar" "here") => anything :times 1))
- 
+
  (fact
   (-> {:foo "bar"}
       (assoc :baz ["quux" "you"])
