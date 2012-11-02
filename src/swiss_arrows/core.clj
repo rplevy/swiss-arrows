@@ -6,19 +6,19 @@
    by default-position (which 'traditional arrow' semantics to fall back on when
    no position is explicitly specified by a diamond)"
   [form x default-position]
-  (let [rf (fn [f] (replace {'<> x} f))
-        cf (fn [f] (count (filter (partial = '<>) f)))
+  (let [substitute-pos (fn [form'] (replace {'<> x} form'))
+        count-pos (fn [form'] (count (filter (partial = '<>) form')))
         c (cond
-           (or (seq? form) (vector? form)) (cf form)
-           (map? form) (cf (mapcat concat form))
+           (or (seq? form) (vector? form)) (count-pos form)
+           (map? form) (count-pos (mapcat concat form))
            :default 0)]
     (cond
      (< 1 c) (throw
               (Exception. "No more than one position per form is allowed."))
      (or (symbol? form) (keyword? form)) `(~form ~x)
-     (vector? form) (rf form)
-     (map? form) (apply hash-map (mapcat rf form))
-     (= 1 c) `(~(first form) ~@(rf (next form)))
+     (vector? form) (substitute-pos form)
+     (map? form) (apply hash-map (mapcat substitute-pos form))
+     (= 1 c) `(~(first form) ~@(substitute-pos (next form)))
      :default (cond (= :first default-position)
                     `(~(first form) ~x ~@(next form))
                     (= :last default-position)
