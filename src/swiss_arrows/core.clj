@@ -1,9 +1,11 @@
 (ns swiss-arrows.core)
 
-(defmacro diamond-thread
-  "Inserts x in place of '<>' in form, or in first or last position as indicated
-  by posk"
-  [form x posk]
+(defmacro ^:internal -<>*
+  "helper macro used by public API macros -<> and -<>>.
+   Inserts x in place of '<>' in form, or in first or last position as indicated
+   by default-position (which 'traditional arrow' semantics to fall back on when
+   no position is explicitly specified by a diamond)"
+  [form x default-position]
   (let [rf (fn [f] (replace {'<> x} f))
         cf (fn [f] (count (filter (partial = '<>) f)))
         c (cond
@@ -17,8 +19,10 @@
      (vector? form) (rf form)
      (map? form) (apply hash-map (mapcat rf form))
      (= 1 c) `(~(first form) ~@(rf (next form)))
-     :default (cond (= :first posk) `(~(first form) ~x ~@(next form))
-                    (= :last posk) `(~(first form) ~@(next form) ~x)))))
+     :default (cond (= :first default-position)
+                    `(~(first form) ~x ~@(next form))
+                    (= :last default-position)
+                    `(~(first form) ~@(next form) ~x)))))
 
 (defmacro -<>
   "the 'diamond wand': top-level insertion of x in place of single
@@ -26,7 +30,7 @@
    mostly behave as the thread-first macro. Also works with hash literals
    and vectors."
   ([x] x)
-  ([x form] `(diamond-thread ~form ~x :first))
+  ([x form] `(-<>* ~form ~x :first))
   ([x form & forms] `(-<> (-<> ~x ~form) ~@forms)))
 
 (defmacro -<>>
@@ -35,7 +39,7 @@
    mostly behave as the thread-last macro. Also works with hash literals
    and vectors."
   ([x] x)
-  ([x form] `(diamond-thread ~form ~x :last))
+  ([x form] `(-<>* ~form ~x :last))
   ([x form & forms] `(-<>> (-<>> ~x ~form) ~@forms)))
 
 (defmacro <<-
@@ -45,8 +49,8 @@
   `(->> ~@(reverse forms)))
 
 
-(defmacro furcula*
-  "would-be private, sugar-free basis of public API"
+(defmacro ^:internal furcula*
+  "sugar-free basis of public API"
   [operator parallel? form branches]
   (let [base-form-result (gensym)
         branches (vec branches)]
@@ -91,7 +95,7 @@
   [form & branches]
   `(furcula* -<> :parallel ~form ~branches))
 
-(defmacro ^:private defnilsafe [docstring non-safe-name nil-safe-name]
+(defmacro ^:internal defnilsafe [docstring non-safe-name nil-safe-name]
   `(defmacro ~nil-safe-name ~docstring
      {:arglists '([~'x ~'form] [~'x ~'form ~'& ~'forms])}
      ([x# form#]
