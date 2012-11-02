@@ -50,8 +50,7 @@
   ([x form & forms] `(-<>> (-<>> ~x ~form) ~@forms)))
 
 (defmacro <<-
-  "the 'back-arrow': suggested by Stephen Compall in response to a certain
-   recently announced Clojure library"
+  "the 'back-arrow'"
   [& forms]
   `(->> ~@(reverse forms)))
 

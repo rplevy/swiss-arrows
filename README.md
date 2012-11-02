@@ -23,10 +23,10 @@ Clojure 1.3
 (ns example.core
   (:use [swiss-arrows.core]))
 ```
- 
+
 ### Overview
 
-**-<>** The Diamond Wand
+**-<>** , **-<>>** The Diamond Wand, Diamond Spear
 
 **-?<>** The Nil-shortcutting Diamond Wand
 
@@ -72,9 +72,26 @@ Like -> & ->> interpret a symbol x as (x), -<> interprets x as (x <>)
  => [4 3]
 ```
 
-*Nil-shortcutting Diamond Wand*
+*Default Bositioning Behavior*
 
-Contributed by Alex Baranosky.
+If no <> position marker is found in a form within the Diamond Wand -<>, the
+default positioning behavior follows that of the -> macro. Likewise, if no
+position is specified in a form within the Diamond Spear -<>>, the default is
+has the positioning semantics of ->>.
+
+Some examples:
+
+```clojure
+  (-<> 0 [1 2 3]) => [0 1 2 3]
+
+  (-<> 0 (list 1 2 3)) => '(0 1 2 3)
+
+  (-<>> 4 (conj [1 2 3])) => [1 2 3 4]
+
+  (-<> 4 (cons [1 2 3]) reverse (map inc <>)) => [4 3 2 5])
+```
+
+*Nil-shortcutting Diamond Wand*
 
 ```clojure
  (-?<> "abc"
@@ -113,8 +130,8 @@ are arbitrarily nestable.
 
 ### The Back Arrow
 
-This is simply ->> with its arguments reversed, convenient in some cases.  It
-was contributed by Stephen Compall as an alternative to
+This is simply ->> with its arguments reversed, convenient in some cases.
+It was suggested as an alternative to
 [egamble/let-else](http://github.com/egamble/let-else).
 
 ```clojure
@@ -127,11 +144,11 @@ was contributed by Stephen Compall as an alternative to
 ### Branching Arrows
 
 The following six arrows (three, and their parallel counterparts) are
-*branching* arrows, in contrast with the "threading" or "nesting" arrows we 
-have seen thus far.  The following example demonstrates how branching and 
-nesting arrows can work together to cleanly express a flow of control. Here 
-our first branching arrow, The Furcula, passes the result of (+ 1 2) to each 
-of the successive forms, which is then nested out horizontally into further 
+*branching* arrows, in contrast with the "threading" or "nesting" arrows we
+have seen thus far.  The following example demonstrates how branching and
+nesting arrows can work together to cleanly express a flow of control. Here
+our first branching arrow, The Furcula, passes the result of (+ 1 2) to each
+of the successive forms, which is then nested out horizontally into further
 expressions using traditional arrows.
 
 ```clojure
@@ -142,8 +159,8 @@ expressions using traditional arrows.
 ```
 
 
-*The Furcula* - a branching arrow using the -> form placement convention. 
-Expands to a let performing the initial operation, and then individual 
+*The Furcula* - a branching arrow using the -> form placement convention.
+Expands to a let performing the initial operation, and then individual
 expressions using it. In the parallel version, the individual expressions are
  evaluated in futures.
 
@@ -186,8 +203,8 @@ Credits:
 Walter Tetzner, Stephen Compall, and I designed and implemented something
 similar to the "diamond wand" a couple of years ago.
 
-Thanks to Alex Baranosky, Roman Perepelitsa and Stephen Compall for
-constructive feedback and ideas.
+Thanks to Alex Baranosky, Roman Perepelitsa, Paul Dorman, and Stephen Compall
+for code contributions and conceptual contributions.
 
 Copyright (C) 2012 Robert P. Levy
 
