@@ -66,7 +66,10 @@
       reverse)
  => [4 3]
 
- ;; 'default position' behaviors
+ (eval '(-<> 0 [1 <> <>])) => (throws Exception #"more than one"))
+
+(facts
+ "about default position behavior"
 
  (-<> 0 [1 2 3]) => [0 1 2 3]
 
@@ -76,18 +79,14 @@
 
  (-<>> 0 '(1 2 3)) => '(1 2 3 0)
 
- (eval '(-<> 0 [1 <> <>])) => (throws Exception #"more than one"))
+ (future-facts
+  (-<>> 4 (conj [1 2 3])) => [1 2 3 4]
 
-(future-facts
- "about positions"
- 
- (-<>> 4 (conj [1 2 3])) => [1 2 3 4]
+  (-<> 4 (cons [1 2 3])) => [4 1 2 3]
 
- (-<> 4 (cons [1 2 3])) => [4 1 2 3]
+  (-<>> 4 (conj [1 2 3]) reverse (map inc <>)) => [5 4 3 2]
 
- (-<>> 4 (conj [1 2 3]) reverse (map inc <>)) => [5 4 3 2]
-
- (-<> 4 (cons [1 2 3]) reverse (map inc <>)) => [4 3 2 5])
+  (-<> 4 (cons [1 2 3]) reverse (map inc <>)) => [4 3 2 5]))
 
 
 (facts
