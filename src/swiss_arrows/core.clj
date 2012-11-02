@@ -6,10 +6,10 @@
   [form x posk]
   (let [rf (fn [f] (replace {'<> x} f))
         cf (fn [f] (count (filter (partial = '<>) f)))
-        c (cond 
+        c (cond
             (or (seq? form) (vector? form)) (cf form)
             (map? form) (cf (mapcat concat form))
-            :default 0)]    
+            :default 0)]
     (cond
       (< 1 c) (throw (Exception. "No more than one position per form is allowed."))
       (or (symbol? form) (keyword? form)) `(~form ~x)
