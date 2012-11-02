@@ -1,23 +1,24 @@
 (ns swiss-arrows.core)
 
-(defmacro thread-into
+(defmacro diamond-thread
   "Inserts x in place of '<>' in form, or in first or last position as indicated
   by posk"
   [form x posk]
   (let [rf (fn [f] (replace {'<> x} f))
         cf (fn [f] (count (filter (partial = '<>) f)))
         c (cond
-            (or (seq? form) (vector? form)) (cf form)
-            (map? form) (cf (mapcat concat form))
-            :default 0)]
+           (or (seq? form) (vector? form)) (cf form)
+           (map? form) (cf (mapcat concat form))
+           :default 0)]
     (cond
-      (< 1 c) (throw (Exception. "No more than one position per form is allowed."))
-      (or (symbol? form) (keyword? form)) `(~form ~x)
-      (vector? form) (rf form)
-      (map? form) (apply hash-map (mapcat rf form))
-      (= 1 c) `(~(first form) ~@(rf (next form)))
-      :default (cond (= :first posk) `(~(first form) ~x ~@(next form))
-                     (= :last posk) `(~(first form) ~@(next form) ~x)))))
+     (< 1 c) (throw
+              (Exception. "No more than one position per form is allowed."))
+     (or (symbol? form) (keyword? form)) `(~form ~x)
+     (vector? form) (rf form)
+     (map? form) (apply hash-map (mapcat rf form))
+     (= 1 c) `(~(first form) ~@(rf (next form)))
+     :default (cond (= :first posk) `(~(first form) ~x ~@(next form))
+                    (= :last posk) `(~(first form) ~@(next form) ~x)))))
 
 (defmacro -<>
   "the 'diamond wand': top-level insertion of x in place of single
@@ -25,7 +26,7 @@
    mostly behave as the thread-first macro. Also works with hash literals
    and vectors."
   ([x] x)
-  ([x form] `(thread-into ~form ~x :first))
+  ([x form] `(diamond-thread ~form ~x :first))
   ([x form & forms] `(-<> (-<> ~x ~form) ~@forms)))
 
 (defmacro -<>>
@@ -34,7 +35,7 @@
    mostly behave as the thread-last macro. Also works with hash literals
    and vectors."
   ([x] x)
-  ([x form] `(thread-into ~form ~x :last))
+  ([x form] `(diamond-thread ~form ~x :last))
   ([x form & forms] `(-<>> (-<>> ~x ~form) ~@forms)))
 
 (defmacro <<-
