@@ -20,7 +20,7 @@
          (keyword? form)) `(~form ~x)
      (= 0 c)              (cond (vector? form)
                                 (if (= :first default-position)
-                                  `(cons ~x ~form)
+                                  `(vec (cons ~x ~form))
                                   `(conj ~form ~x)) ,
                                 (coll? form)
                                 (if (= :first default-position)
