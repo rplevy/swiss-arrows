@@ -208,8 +208,12 @@
   (-?<> "abc"
         (if (string? "adf") nil <>)
         (str <> " + more"))
+  => nil
+  
+  (-?<>> "abc"
+         (if (string? "adf") nil)
+         (str <> "+ more"))
   => nil)
-
 
 (facts
  "about non-updating arrows"

@@ -112,6 +112,9 @@
 (defnilsafe "the nullsafe version of -<>"
   -<> -?<>)
 
+(defnilsafe "the nullsafe version of -<>>"
+  -<>> -?<>>)
+
 (defmacro -!>
   "non-updating -> for unobtrusive side-effects"
   [form & forms]
