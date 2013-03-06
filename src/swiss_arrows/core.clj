@@ -129,3 +129,8 @@
   "non-updating -<> for unobtrusive side-effects"
   [form & forms]
   `(let [x# ~form] (-<> x# ~@forms) x#))
+
+(defmacro -!<>>
+  "non-updating -<>> for unobtrusive side-effects"
+  [form & forms]
+  `(let [x# ~form] (-<>> x# ~@forms) x#))
