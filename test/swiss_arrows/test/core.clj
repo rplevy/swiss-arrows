@@ -233,6 +233,11 @@
   (provided (prn "got" "bar" "here") => anything :times 1))
 
  (fact
+  (-!<>> {:foo "bar"} :foo (prn "got" "here"))
+  => {:foo "bar"}
+  (provided (prn "got" "here" "bar") => anything :times 1))
+
+ (fact
   (-> {:foo "bar"}
       (assoc :baz ["quux" "you"])
       (-!> :baz second (prn "got here"))
