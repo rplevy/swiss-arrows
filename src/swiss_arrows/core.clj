@@ -101,6 +101,16 @@
   [form & branches]
   `(furcula* -<> :parallel ~form ~branches))
 
+(defmacro -<>><
+  "'the diamond harpoon': analog of -<>> for furcula"
+  [form & branches]
+  `(furcula* -<>> nil ~form ~branches))
+
+(defmacro -<>><:p
+  "parallel diamond harpoon"
+  [form & branches]
+  `(furcula* -<>> :parallel ~form ~branches))
+
 (defmacro ^:internal defnilsafe [docstring non-safe-name nil-safe-name]
   `(defmacro ~nil-safe-name ~docstring
      {:arglists '([~'x ~'form] [~'x ~'form ~'& ~'forms])}
