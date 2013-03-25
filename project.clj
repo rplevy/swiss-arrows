@@ -1,4 +1,4 @@
-(defproject swiss-arrows "0.5.1"
+(defproject swiss-arrows "0.6.0"
   :description "more arrow macros"
   :url "https://clojars.org/swiss-arrows"
   :license {:name "Eclipse Public License"
