@@ -101,6 +101,16 @@
   [form & branches]
   `(furcula* -<> :parallel ~form ~branches))
 
+(defmacro -<>><
+  "'the diamond harpoon': analog of -<>> for furcula"
+  [form & branches]
+  `(furcula* -<>> nil ~form ~branches))
+
+(defmacro -<>><:p
+  "parallel diamond harpoon"
+  [form & branches]
+  `(furcula* -<>> :parallel ~form ~branches))
+
 (defmacro ^:internal defnilsafe [docstring non-safe-name nil-safe-name]
   `(defmacro ~nil-safe-name ~docstring
      {:arglists '([~'x ~'form] [~'x ~'form ~'& ~'forms])}
@@ -111,6 +121,9 @@
 
 (defnilsafe "the nullsafe version of -<>"
   -<> -?<>)
+
+(defnilsafe "the nullsafe version of -<>>"
+  -<>> -?<>>)
 
 (defmacro -!>
   "non-updating -> for unobtrusive side-effects"
@@ -126,3 +139,8 @@
   "non-updating -<> for unobtrusive side-effects"
   [form & forms]
   `(let [x# ~form] (-<> x# ~@forms) x#))
+
+(defmacro -!<>>
+  "non-updating -<>> for unobtrusive side-effects"
+  [form & forms]
+  `(let [x# ~form] (-<>> x# ~@forms) x#))

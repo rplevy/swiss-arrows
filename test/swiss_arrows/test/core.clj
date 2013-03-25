@@ -173,6 +173,22 @@
  =>
  '[(3 2 1) (5 3 7) (9 4 3)]
 
+ (-<>>< (+ 1 2)
+       (list <> 2 1)
+       (list 5 <> 7)
+       (list 9 4 <>)
+       (list 10 11))
+ =>
+ '[(3 2 1) (5 3 7) (9 4 3) (10 11 3)]
+
+ (-<>><:p (+ 1 2)
+          (list <> 2 1)
+          (list 5 <> 7)
+          (list 9 4 <>)
+          (list 10 11))
+ =>
+ '[(3 2 1) (5 3 7) (9 4 3) (10 11 3)]
+
  ;; compare time of parallel to sequential
 
  ;; parallel
@@ -208,8 +224,12 @@
   (-?<> "abc"
         (if (string? "adf") nil <>)
         (str <> " + more"))
+  => nil
+  
+  (-?<>> "abc"
+         (if (string? "adf") nil)
+         (str <> "+ more"))
   => nil)
-
 
 (facts
  "about non-updating arrows"
@@ -227,6 +247,11 @@
   (-!<> {:foo "bar"} :foo (prn "got" <> "here"))
   => {:foo "bar"}
   (provided (prn "got" "bar" "here") => anything :times 1))
+
+ (fact
+  (-!<>> {:foo "bar"} :foo (prn "got" "here"))
+  => {:foo "bar"}
+  (provided (prn "got" "here" "bar") => anything :times 1))
 
  (fact
   (-> {:foo "bar"}
