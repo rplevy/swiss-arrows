@@ -229,6 +229,16 @@
   (-?<>> "abc"
          (if (string? "adf") nil)
          (str <> "+ more"))
+  => nil
+
+  (some-<> "abc"
+           (if (string? "adf") nil <>)
+           (str <> " + more"))
+  => nil
+  
+  (some-<>> "abc"
+            (if (string? "adf") nil)
+            (str <> "+ more"))
   => nil)
 
 (facts

@@ -125,6 +125,12 @@
 (defnilsafe "the nullsafe version of -<>>"
   -<>> -?<>>)
 
+(defnilsafe "the diamond wand version of some->"
+  -<> some-<>)
+
+(defnilsafe "the diamond wand version of some->>"
+  -<>> some-<>>)
+
 (defmacro -!>
   "non-updating -> for unobtrusive side-effects"
   [form & forms]
