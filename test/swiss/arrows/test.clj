@@ -1,6 +1,6 @@
-(ns swiss-arrows.test.core
+(ns swiss.arrows.test
   (:require [clojure.string :as str]
-            [swiss-arrows.core :refer :all]
+            [swiss.arrows :refer :all]
             [midje.sweet :refer :all]))
 
 (facts

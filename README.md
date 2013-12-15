@@ -12,16 +12,9 @@ http://clojars.org/swiss-arrows
 
 ### Getting Started
 
-Clojure 1.4
 ```
 (ns example.core
-  (:require [swiss-arrows.core :refer :all]))
-```
-
-Clojure 1.3
-```
-(ns example.core
-  (:use [swiss-arrows.core]))
+  (:require [swiss.arrows :refer :all]))
 ```
 
 ### Overview

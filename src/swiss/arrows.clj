@@ -1,4 +1,4 @@
-(ns swiss-arrows.core)
+(ns swiss.arrows)
 
 (defmacro ^:internal -<>*
   "helper macro used by public API macros -<> and -<>>.
