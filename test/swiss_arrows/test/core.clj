@@ -219,17 +219,17 @@
    #"[^\d\.]" ""))
  => (roughly 3000 3005))
 
-(facts "about null-safe swiss arrows"
+(facts
+ "about null-safe swiss arrows"
+ (some-<> "abc"
+          (if (string? "adf") nil <>)
+          (str <> " + more"))
+ => nil
 
-  (-?<> "abc"
-        (if (string? "adf") nil <>)
-        (str <> " + more"))
-  => nil
-  
-  (-?<>> "abc"
-         (if (string? "adf") nil)
-         (str <> "+ more"))
-  => nil)
+ (some-<>> "abc"
+           (if (string? "adf") nil)
+           (str <> "+ more"))
+ => nil)
 
 (facts
  "about non-updating arrows"

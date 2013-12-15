@@ -119,11 +119,11 @@
      ([x# form# & more#]
              `(~'~nil-safe-name (~'~nil-safe-name ~x# ~form#) ~@more#))))
 
-(defnilsafe "the nullsafe version of -<>"
-  -<> -?<>)
+(defnilsafe "the diamond wand version of some->"
+  -<> some-<>)
 
-(defnilsafe "the nullsafe version of -<>>"
-  -<>> -?<>>)
+(defnilsafe "the diamond wand version of some->>"
+  -<>> some-<>>)
 
 (defmacro -!>
   "non-updating -> for unobtrusive side-effects"
