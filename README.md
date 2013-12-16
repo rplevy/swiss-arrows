@@ -23,7 +23,7 @@ http://clojars.org/swiss-arrows
 
 **some-<>** , **some-<>>** The Nil-shortcutting Diamond Wand
 
-**apply->** , **apply->>** Applicative arrows (beta)
+**apply->** , **apply->>** Applicative arrows (WIP)
 
 **-!>** , **-!>>** , **-!<>** Non-updating Arrows
 
@@ -95,7 +95,7 @@ Some examples:
  => nil
 ```
 
-### Applicative Arrows (beta)
+### Applicative Arrows (WIP)
 
 ```clojure
  (apply->>
