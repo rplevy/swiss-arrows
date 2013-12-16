@@ -107,7 +107,7 @@ Some examples:
    +)                     => 21
 ```
 
-Based on idea suggested by @redcabin:
+Based on idea suggested by @rebcabin:
 
 >“Since I noticed that the "nil-shortcutting diamond wand" acts like the Maybe monad, I started getting the feeling that the swiss arrows could be generalized over all monads. Since the archetype of monads is the sequence monad and the mother operator, bind, for sequence is (apply concat (map my-foo your-sequence-monad)) I started to see chaining of apply-concat as a start toward monadic swiss arrows :)
 
@@ -218,7 +218,7 @@ Credits:
 Walter Tetzner, Stephen Compall, and I designed and implemented something
 similar to the "diamond wand" a couple of years ago.
 
-Thanks to Alex Baranosky, Roman Perepelitsa, Paul Dorman, @redcabin, and Stephen Compall for code contributions and conceptual contributions.
+Thanks to Alex Baranosky, Roman Perepelitsa, Paul Dorman, @rebcabin, and Stephen Compall for code contributions and conceptual contributions.
 
 Copyright (C) 2012 Robert P. Levy
 
