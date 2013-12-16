@@ -232,6 +232,16 @@
  => nil)
 
 (facts
+ "about applicative arrows"
+ (apply->> [[1 2] [3 4]] concat +) => 10
+ (apply->> [[1 2] [3 4]] (concat [5 6])) => [5 6 1 2 3 4]
+ (apply->> [[1 2] [3 4]] (concat [5 6]) (+)) => 21
+
+ (apply-> [[1 2] [3 4]] concat +) => 10
+ (apply-> [1 2 3 4] (concat [[5 6]])) => [1 2 3 4 5 6]
+ (apply-> [1 2 3 4] (concat [[5 6]]) (+)) => 21)
+
+(facts
  "about non-updating arrows"
  (fact
   (-!> {:foo "bar"} :foo prn)

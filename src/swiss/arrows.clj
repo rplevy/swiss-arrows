@@ -54,7 +54,6 @@
   [& forms]
   `(->> ~@(reverse forms)))
 
-
 (defmacro ^:internal furcula*
   "sugar-free basis of public API"
   [operator parallel? form branches]
@@ -117,13 +116,32 @@
      ([x# form#]
         `(let [~'i# ~x#] (when-not (nil? ~'i#) (~'~non-safe-name ~'i# ~form#))))
      ([x# form# & more#]
-             `(~'~nil-safe-name (~'~nil-safe-name ~x# ~form#) ~@more#))))
+        `(~'~nil-safe-name (~'~nil-safe-name ~x# ~form#) ~@more#))))
 
 (defnilsafe "the diamond wand version of some->"
   -<> some-<>)
 
 (defnilsafe "the diamond wand version of some->>"
   -<>> some-<>>)
+
+(defmacro apply->>
+  "applicative ->>"
+  [& forms]
+  `(->> ~@(cons (first forms)
+                (map #(if (coll? %)
+                        (cons 'apply %)
+                        (list 'apply %))
+                     (rest forms)))))
+
+(defmacro apply->
+  "applicative ->"
+  [& forms]
+  `(-> ~@(cons (first forms)
+               (map (fn [el#]
+                      (if (coll? el#)
+                        `((partial apply ~(first el#)) ~@(rest el#))
+                        (list `(partial apply ~el#))))
+                    (rest forms)))))
 
 (defmacro -!>
   "non-updating -> for unobtrusive side-effects"
