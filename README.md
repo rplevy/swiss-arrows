@@ -106,11 +106,6 @@ Some examples:
    (concat [5 6])
    +)                     => 21
 ```
- (apply->> "abc"
-   (if (string? "adf") nil <>)
-     (str <> " + more"))
- => nil
-```
 
 Based on idea suggested by @rebcabin:
 
