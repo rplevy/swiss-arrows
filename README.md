@@ -21,7 +21,9 @@ http://clojars.org/swiss-arrows
 
 **-<>** , **-<>>** The Diamond Wand, Diamond Spear
 
-**-?<>** The Nil-shortcutting Diamond Wand
+**some-<>** , **some-<>>** The Nil-shortcutting Diamond Wand
+
+**apply->** , **apply->>** Applicative arrows (beta)
 
 **-!>** , **-!>>** , **-!<>** Non-updating Arrows
 
@@ -87,11 +89,36 @@ Some examples:
 *Nil-shortcutting Diamond Wand*
 
 ```clojure
- (-?<> "abc"
-       (if (string? "adf") nil <>)
-       (str <> " + more"))
- => nil)
+ (some-<> "abc"
+   (if (string? "adf") nil <>)
+   (str <> " + more"))
+ => nil
 ```
+
+### Applicative Arrows (beta)
+
+```clojure
+ (apply->>
+   [[1 2] [3 4]]
+   (concat [5 6]))        => [5 6 1 2 3 4]
+
+ (apply->> [[1 2] [3 4]]
+   (concat [5 6])
+   +)                     => 21
+```
+ (apply->> "abc"
+   (if (string? "adf") nil <>)
+     (str <> " + more"))
+ => nil
+```
+
+Based on idea suggested by @rebcabin:
+
+    “Since I noticed that the "nil-shortcutting diamond wand" acts like the Maybe monad, I started getting the feeling that the swiss arrows could be generalized over all monads. Since the archetype of monads is the sequence monad and the mother operator, bind, for sequence is (apply concat (map my-foo your-sequence-monad)) I started to see chaining of apply-concat as a start toward monadic swiss arrows :)
+
+    Also, Wolfram / Mathematica have a host of operators that thread and merge Apply around expressions (see http://reference.wolfram.com/mathematica/ref/Apply.html). Mathematica was designed before monads were formalized in programming languages, but their precursors are all over Mathematica, for instance in the frequent use of Apply. [edit: I should add, contextually, that I am a big admirer of Mathematica just as a programming language, never mind its huge knowledge base of math. I often refer to it for ideas to bring to Clojure and other languages.]
+
+    As for the first argument being special, that didn't seem out-of-step with the other arrows, none of which, for instance, can take an expression with an angle-hole "<>" in the first position, and all of which take expressions-with-angle-holes in every slot except the first, modulo the defaults. The defaults are abundant and require the same kind of mental substitution that apply->> etc. would require, so the overall design has established the precedent of "implicits."”
 
 ### Non-updating Arrows (for unobtrusive side-effecting)
 
