@@ -209,7 +209,7 @@ except it uses the -<> form placement convention.
 (-<><:p (+ 1 2) [<> 2 1] [5 <> 7] [9 4 <>]) => '[(3 2 1) (5 3 7) (9 4 3)]
 ```
 
-See https://github.com/rplevy/swiss-arrows/blob/master/test/swiss_arrows/test/core.clj for more examples.
+See [the tests](https://github.com/rplevy/swiss-arrows/blob/master/test/swiss/arrows/test.clj) for more examples.
 
 ## License
 
