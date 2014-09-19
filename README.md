@@ -44,7 +44,7 @@ is passed through specified <> positions in each of the forms.
 (-<> 2
      (* <> 5)
      (vector 1 2 <> 3 4))
- => [1 2  10 3 4]
+ => [1 2 10 3 4]
 ```
 
 The diamond wand also supports literals:
