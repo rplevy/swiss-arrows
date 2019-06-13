@@ -162,3 +162,31 @@
   "non-updating -<>> for unobtrusive side-effects"
   [form & forms]
   `(let [x# ~form] (-<>> x# ~@forms) x#))
+
+(defmacro macro-maker
+  "a wrapper for defining functions with -<> that allows for arbitrary first function arity as well."
+  [declarator name & forms]
+  (let [start         (list declarator name) 
+        docstring     (list (if (string? (first forms)) (first forms) "Generated function."))
+        forms*        (if (string? (first forms)) (rest forms) forms)
+        arg-form      (if (seq? (first forms*)) '([arg]) '([& args]))
+        thread-init   (if (seq? (first forms*)) `(-<> ~'arg) `(-<> (apply ~(first forms*) ~'args)))
+        thread-remain (if (seq? (first forms*)) forms* (rest forms*))]
+  (concat 
+    start
+    docstring
+    arg-form
+    (list (concat thread-init thread-remain)))))
+
+(defmacro =>
+  "The Pointless Arrow: a way of more strictly achieving point free code
+    by preventing argument declaration. It also allows for arbitrary arity
+    and cuts down on boiler plate when -<> is being relied upon heavily."
+  [& args]
+  (concat `(macro-maker ~'defn) args))
+
+(defmacro +>
+  "The Secret Arrow: a private variant of The Pointless Arrow."
+  [& args]
+  (concat `(macro-maker ~'defn-) args))
+
