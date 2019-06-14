@@ -246,3 +246,30 @@
               (str "\"you\" \"got here\"\n"
                    "\"got here\" \"you\"\n"
                    "\"got\" \"you\" \"here\"\n")])))))
+
+(defmacro docstring [symbol]
+  `(:doc (meta (var ~symbol))))
+
+(=> test-fn-1
+  dec
+  (+ 2)
+  inc
+  (- 5 <>))
+
+(=> test-fn-2 
+    "is a test function"
+    (+ <> -1))
+
+(=> test-fn-3
+  +
+  (* -2)
+  dec)
+
+(deftest thread-maker-test
+  (testing "=> macro creates a thread function"
+    (is (= (test-fn-1 1) 2)))
+  (testing "=> macro allows for docstrings"
+    (is (= "is a test function" (docstring  test-fn-2))))
+  (testing "=> macro should allow for arbitrary first function arity"
+    (is (= -21 (test-fn-3 3 5 2)))))
+
