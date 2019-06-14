@@ -190,3 +190,7 @@
   [& args]
   (concat `(macro-maker ~'defn-) args))
 
+(defmacro <<>>
+  "The High Diamond: a variant of the pointless arrow that makes macros"
+  [& args]
+  (concat `(macro-maker ~'defmacro) args))

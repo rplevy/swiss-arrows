@@ -35,6 +35,10 @@ http://clojars.org/swiss-arrows
 
 **-<><** , **-<><:p** The Diamond Fishing Rod, Parallel Diamond Fishing Rod
 
+**=>** The Pointless Arrow
+
+**+>** The Secret Arrow
+
 ### A Generalization of the Arrow
 
 *The Diamond Wand* - similar to -> or ->> except that the flow of execution
@@ -210,6 +214,64 @@ except it uses the -<> form placement convention.
 ```
 
 See [the tests](https://github.com/rplevy/swiss-arrows/blob/master/test/swiss/arrows/test.clj) for more examples.
+
+###The Definition Arrows
+The following three arrows allow for function definitions to be simplified when relying on the diamond wand.
+They also allow for a quick way of enforcing a primarily point free style (hence the name).
+
+*The Pointless Arrow*
+Creates a `defn` using `-<>` which is either arity 1, if the first form is a seq, or
+arity N if the first form is a function.
+
+```clojure
+(=> mathify
+    (- 3 <>)
+    inc)
+
+==>
+
+(defn
+  mathify
+  [arg]
+  (-<>
+    (- 3 <>)
+    inc))
+```
+
+*The Secret Arrow*
+Similar to the Pointless Arrow, but using `defn-`.
+
+```clojure
+(+> mathify
+    (- 3 <>)
+    inc)
+
+==>
+
+(defn-
+  mathify
+  [arg]
+  (-<>
+    (- 3 <>)
+    inc))
+```
+*The High Diamond*
+Similar to the Pointless Arrow, but using `defmacro`.
+
+```clojure
+(<<>> mathify
+    (- 3 <>)
+    inc)
+
+==>
+
+(defmacro
+  mathify
+  [arg]
+  (-<>
+    (- 3 <>)
+    inc))
+```
 
 ## License
 
